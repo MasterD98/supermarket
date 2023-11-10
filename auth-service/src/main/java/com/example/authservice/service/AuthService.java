@@ -1,7 +1,8 @@
 package com.example.authservice.service;
 
-import com.example.authservice.entity.UserCredential;
-import com.example.authservice.repository.UserCredentialRepository;
+import com.example.authservice.entity.User;
+import com.example.authservice.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,16 +11,16 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     @Autowired
-    private UserCredentialRepository repository;
+    private UserRepository repository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtService jwtService;
 
-    public String saveUser(UserCredential credential) {
-        credential.setPassword(passwordEncoder.encode(credential.getPassword()));
-        repository.save(credential);
+    public String saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        repository.save(user);
         return "user added to the system";
     }
 

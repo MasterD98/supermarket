@@ -1,3 +1,4 @@
+
 eureka:
   instance:
     hostname: localhost
@@ -6,15 +7,15 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 server:
-  port: 8090
+  port: 8091
 spring:
   application:
-    name: auth-service
+    name: inventory-service
   config:
     import: optional:configserver:http://localhost:8888
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/auth_service_db
+    url: jdbc:mysql://localhost:3306/inventory_service_db
     username: root
     password: Admin123
   jpa:

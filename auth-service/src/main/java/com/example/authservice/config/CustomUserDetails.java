@@ -1,6 +1,6 @@
 package com.example.authservice.config;
 
-import com.example.authservice.entity.UserCredential;
+import com.example.authservice.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,9 +11,9 @@ public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
 
-    public CustomUserDetails(UserCredential userCredential) {
-        this.username = userCredential.getUsername();
-        this.password = userCredential.getPassword();
+    public CustomUserDetails(User user) {
+        this.username = user.getUsername();
+        this.password = user.getPassword();
     }
 
     @Override

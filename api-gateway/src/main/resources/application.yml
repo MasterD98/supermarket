@@ -34,6 +34,13 @@ spring:
             filters:
             - AuthenticationFilter
 
+          - id: order-service
+            uri: http://localhost:8093
+            predicates:
+            - Path=/order/**
+            filters:
+            - AuthenticationFilter
+
   config:
     import: optional:configserver:http://localhost:8888
 management:

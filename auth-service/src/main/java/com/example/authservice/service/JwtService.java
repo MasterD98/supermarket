@@ -5,7 +5,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 import java.security.Key;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,10 +21,6 @@ public class JwtService {
 
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
-        // ArrayList<String> roles=new ArrayList<>();
-        // roles.add("a");
-        // roles.add("b");
-        // claims.put("roles",roles);
         return createToken(claims, userName);
     }
 
