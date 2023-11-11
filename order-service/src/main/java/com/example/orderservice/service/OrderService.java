@@ -36,7 +36,7 @@ public class OrderService {
         return "Order is successfully added";
     }
 
-    public Page<OrderResponseDTO> getAllItems(Integer page, Integer size) {
+    public Page<OrderResponseDTO> getAllOrders(Integer page, Integer size) {
         PageRequest pageable = PageRequest.of(page, size);
         Page<Order> pageEntities = orderRepository.findAll(pageable);
 
