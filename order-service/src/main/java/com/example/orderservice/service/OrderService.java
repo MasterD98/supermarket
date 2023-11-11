@@ -166,7 +166,8 @@ public class OrderService {
 
     public String updateOrder(OrderRequestDTO orderRequestDTO, int id) {
 
-        Order updatedOrder = orderRepository.findById(id).orElse(null);
+        Order updatedOrder = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));;
+
         List<OrderItemDTO> orderItemsDTO = orderRequestDTO.getItems();
         List<OrderItem> orderItems = orderItemsDTO.stream().map(this::mapOrderItemDTOtoOrderItem).toList();
 

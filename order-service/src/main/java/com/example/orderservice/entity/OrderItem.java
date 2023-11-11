@@ -14,13 +14,12 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int orderItemId;
     private int id;
     private String name;
     private String description;
     private int quantity;
     private double unitPrice;
     private String category;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Order order;
 
 }
