@@ -1,10 +1,8 @@
 package com.example.orderservice.service;
 
-import com.example.inventoryservice.dto.ItemRequestDTO;
-import com.example.inventoryservice.dto.ItemResponseDTO;
-import com.example.inventoryservice.entity.Item;
-import com.example.inventoryservice.repository.ItemRepository;
-import com.example.orderservice.repository.OrderItemRepository;
+import com.example.orderservice.dto.OrderRequestDTO;
+import com.example.orderservice.dto.OrderResponseDTO;
+import com.example.orderservice.entity.Order;
 import com.example.orderservice.repository.OrderRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,87 +10,81 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ItemService {
+public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-
     @Autowired
-    private OrderItemRepository orderItemRepository;
+    private final WebClient webClient;
 
-    public String addNewItem(ItemRequestDTO itemRequestDTO) {
+    public String placeOrder(OrderRequestDTO orderRequestDTO) {
 
-        Order newItem = Order.builder()
-                .name(itemRequestDTO.getName())
-                .category(itemRequestDTO.getCategory())
-                .description(itemRequestDTO.getDescription())
-                .unitPrice(itemRequestDTO.getUnitPrice())
-                .image(itemRequestDTO.getImage())
-                .availableQuantity(itemRequestDTO.getAvailableQuantity())
+        Order newOrder = Order.builder()
+                .customerId(orderRequestDTO.getCustomerId())
+                .address(orderRequestDTO.getAddress())
+                .total(orderRequestDTO.getTotal())
+                .items(orderRequestDTO.getItems())
                 .build();
-        itemRepository.save(newItem);
-        return "Item is successfully added to the inventory";
+        orderRepository.save(newOrder);
+        return "Order is successfully added";
     }
 
-    public Page<ItemResponseDTO> getAllItems(Integer page, Integer size) {
+    public Page<OrderResponseDTO> getAllItems(Integer page, Integer size) {
         PageRequest pageable = PageRequest.of(page, size);
-        Page<Order> pageEntities = itemRepository.findAll(pageable);
+        Page<Order> pageEntities = orderRepository.findAll(pageable);
 
         List<Order> entityList = pageEntities.getContent();
-        List<ItemResponseDTO> dtoList = new ArrayList<>();
+        List<OrderResponseDTO> dtoList = new ArrayList<>();
 
         entityList.forEach(entity -> dtoList.add(convertItemEntityToItemResponse(entity)));
 
         return new PageImpl<>(dtoList, pageable, pageEntities.getTotalElements());
     }
 
-    public ItemResponseDTO convertItemEntityToItemResponse(Order entity) {
-        ItemResponseDTO itemResponseDTO = ItemResponseDTO.builder()
-                .name(entity.getName())
-                .category(entity.getCategory())
-                .availableQuantity(entity.getAvailableQuantity())
-                .unitPrice(entity.getUnitPrice())
-                .id(entity.getId())
-                .description(entity.getDescription())
-                .image(entity.getImage())
+    public OrderResponseDTO convertItemEntityToItemResponse(Order entity) {
+        OrderResponseDTO orderResponseDTO = OrderResponseDTO.builder()
+                .customerId(entity.getCustomerId())
+                .address(entity.getAddress())
+                .total(entity.getTotal())
+                .items(entity.getItems())
                 .build();
-        return itemResponseDTO;
+        return orderResponseDTO;
     }
 
-    public ItemResponseDTO getItemById(int id) {
-        Order item = itemRepository.findById(id).orElse(null);
-        ItemResponseDTO itemResponseDTO = ItemResponseDTO.builder()
-                .name(item.getName())
-                .category(item.getCategory())
-                .availableQuantity(item.getAvailableQuantity())
-                .unitPrice(item.getUnitPrice())
-                .description(item.getDescription())
-                .image(item.getImage())
-                .id(item.getId())
+    public OrderResponseDTO getOrderById(int id) {
+        Order order = orderRepository.findById(id).orElse(null);
+        OrderResponseDTO orderResponseDTO = OrderResponseDTO.builder()
+                .customerId(order.getCustomerId())
+                .address(order.getAddress())
+                .total(order.getTotal())
+                .items(order.getItems())
+                .id(order.getId())
                 .build();
-        return itemResponseDTO;
+        return orderResponseDTO;
     }
 
-    public String updateItem(ItemRequestDTO itemRequestDTO, int id) {
+    public String updateOrder(OrderRequestDTO orderRequestDTO, int id) {
 
-        Order updatedItem = itemRepository.findById(id).orElse(null);
-        updatedItem.setName(itemRequestDTO.getName());
-        updatedItem.setCategory(itemRequestDTO.getCategory());
-        updatedItem.setUnitPrice(itemRequestDTO.getUnitPrice());
-        updatedItem.setDescription(itemRequestDTO.getDescription());
-        updatedItem.setAvailableQuantity(itemRequestDTO.getAvailableQuantity());
-        updatedItem.setImage(itemRequestDTO.getImage());
-        itemRepository.save(updatedItem);
-        return "Item is successfully updated";
+        Order updatedOrder = orderRepository.findById(id).orElse(null);
+        updatedOrder.setCustomerId(orderRequestDTO.getCustomerId());
+        updatedOrder.setAddress(orderRequestDTO.getAddress());
+        updatedOrder.setTotal(orderRequestDTO.getTotal());
+        updatedOrder.setItems(orderRequestDTO.getItems());
+        orderRepository.save(updatedOrder);
+        return "order successfully updated";
     }
 
-    public String deleteItem(int id) {
-        itemRepository.deleteById(id);
-        return "Item is successfully deleted";
+    public String deleteOrder(int id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        orderRepository.delete(order);
+        return "order successfully deleted";
     }
 }

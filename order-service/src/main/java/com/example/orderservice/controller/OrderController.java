@@ -1,8 +1,12 @@
-package com.example.inventoryservice.controller;
+package com.example.orderservice.controller;
 
 import com.example.inventoryservice.dto.ItemRequestDTO;
 import com.example.inventoryservice.dto.ItemResponseDTO;
 import com.example.inventoryservice.service.ItemService;
+import com.example.orderservice.dto.OrderRequestDTO;
+import com.example.orderservice.dto.OrderResponseDTO;
+import com.example.orderservice.service.OrderService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -10,44 +14,44 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/inventory")
-public class ItemController {
+public class OrderController {
 
     @Autowired
-    private ItemService itemService;
+    private OrderService orderService;
 
     @PostMapping("/addItem")
-    public ResponseEntity<String> addItem(@RequestBody ItemRequestDTO itemRequestDTO) {
-        String result = itemService.addNewItem(itemRequestDTO);
+    public ResponseEntity<String> addItem(@RequestBody OrderRequestDTO orderRequestDTO) {
+        String result = orderService.placeOrder(orderRequestDTO);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/getAllItems")
-    public ResponseEntity<Page<ItemResponseDTO>> getAllItems(
+    public ResponseEntity<Page<OrderResponseDTO>> getAllItems(
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size) {
 
-        ResponseEntity<Page<ItemResponseDTO>> responseEntity = null;
+        ResponseEntity<Page<OrderResponseDTO>> responseEntity = null;
 
-        Page<ItemResponseDTO> pageDTOs = itemService.getAllItems(page, size);
+        Page<OrderResponseDTO> pageDTOs = orderService.getAllItems(page, size);
         return responseEntity.ok(pageDTOs);
     }
 
     @GetMapping("/getItem/{id}")
-    public ResponseEntity<ItemResponseDTO> getItemById(@PathVariable(name = "id") int id) {
-        ItemResponseDTO result = itemService.getItemById(id);
+    public ResponseEntity<OrderResponseDTO> getItemById(@PathVariable(name = "id") int id) {
+        OrderResponseDTO result = orderService.getOrderById(id);
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/updateItem/{id}")
-    public ResponseEntity<String> updateItem(@RequestBody ItemRequestDTO itemRequestDTO,
+    @PutMapping("/updateOrder/{id}")
+    public ResponseEntity<String> updateItem(@RequestBody OrderRequestDTO orderRequestDTO,
             @PathVariable(name = "id") int id) {
-        String result = itemService.updateItem(itemRequestDTO, id);
+        String result = orderService.updateOrder(orderRequestDTO, id);
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("deleteItem/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable(name = "id") int id) {
-        String result = itemService.deleteItem(id);
+    @DeleteMapping("deleteOrder/{id}")
+    public ResponseEntity<String> deleteOrder(@PathVariable(name = "id") int id) {
+        String result = orderService.deleteOrder(id);
         return ResponseEntity.ok(result);
     }
 

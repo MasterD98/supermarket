@@ -1,9 +1,6 @@
 package com.example.orderservice.dto;
 
 import lombok.*;
-
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 @Data
@@ -13,10 +10,12 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @Builder
 @Component
-public class OrderResponseDTO {
+public class OrderItemDTO {
     private int id;
-    private int customerId;
-    private String address;
-    private double total;
-    private List<OrderItemDTO> items;
+    private int orderId;
+    private String name;
+    private String description;
+    private int quantity;
+    private double unitPrice;
+    private String category;
 }

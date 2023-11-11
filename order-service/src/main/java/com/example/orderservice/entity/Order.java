@@ -1,7 +1,7 @@
 package com.example.orderservice.entity;
 
 import java.util.Date;
-
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +22,6 @@ public class Order {
     private double total;
     private Date date;
     @OneToMany
-    @JoinColumn(name = "orderId")
-    private OrderItem[] items;
+    private List<OrderItem> items;
 
 }
