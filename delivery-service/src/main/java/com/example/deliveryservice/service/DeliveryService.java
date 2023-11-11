@@ -20,14 +20,13 @@ public class DeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
-    // delivery states
-
     public String createNewDelivery(DeliveryRequestDTO deliveryRequestDTO) {
 
         Delivery newDelivery = Delivery.builder()
                 .address(deliveryRequestDTO.getAddress())
-                .deliveredStatus(deliveryRequestDTO.getDeliveredStatus())
+                .deliveryStatus(deliveryRequestDTO.getDeliveryStatus())
                 .deliveryCost(deliveryRequestDTO.getDeliveryCost())
+                .deliveryPersonId(deliveryRequestDTO.getDeliveryPersonId())
                 .build();
         deliveryRepository.save(newDelivery);
         return "delivery is successfully added";
@@ -48,8 +47,9 @@ public class DeliveryService {
     public DeliveryResponseDTO convertDeliveryEntityToDeliveryResponse(Delivery entity) {
         DeliveryResponseDTO deliveryResponseDTO = DeliveryResponseDTO.builder()
                 .address(entity.getAddress())
-                .deliveredStatus(entity.getDeliveredStatus())
+                .deliveryStatus(entity.getDeliveryStatus())
                 .deliveryCost(entity.getDeliveryCost())
+                .deliveryPersonId(entity.getDeliveryPersonId())
                 .build();
         return deliveryResponseDTO;
     }
@@ -58,8 +58,9 @@ public class DeliveryService {
         Delivery delivery = deliveryRepository.findById(id).orElse(null);
         DeliveryResponseDTO deliveryResponseDTO = DeliveryResponseDTO.builder()
                 .address(delivery.getAddress())
-                .deliveredStatus(delivery.getDeliveredStatus())
+                .deliveryStatus(delivery.getDeliveryStatus())
                 .deliveryCost(delivery.getDeliveryCost())
+                .deliveryPersonId(delivery.getDeliveryPersonId())
                 .id(delivery.getId())
                 .build();
         return deliveryResponseDTO;
@@ -69,8 +70,9 @@ public class DeliveryService {
 
         Delivery updatedDelivery = deliveryRepository.findById(id).orElse(null);
         updatedDelivery.setAddress(deliveryRequestDTO.getAddress());
-        updatedDelivery.setDeliveredStatus(deliveryRequestDTO.getDeliveredStatus());
+        updatedDelivery.setDeliveryStatus(deliveryRequestDTO.getDeliveryStatus());
         updatedDelivery.setDeliveryCost(deliveryRequestDTO.getDeliveryCost());
+        updatedDelivery.setDeliveryPersonId(deliveryRequestDTO.getDeliveryPersonId());
         deliveryRepository.save(updatedDelivery);
         return "delivery is successfully updated";
     }

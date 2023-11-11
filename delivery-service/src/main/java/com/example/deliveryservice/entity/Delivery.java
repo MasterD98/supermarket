@@ -16,7 +16,8 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String address;
-    private String deliveredStatus;
+    private String deliveryStatus;
     private double deliveryCost;
+    private int deliveryPersonId;
 
 }

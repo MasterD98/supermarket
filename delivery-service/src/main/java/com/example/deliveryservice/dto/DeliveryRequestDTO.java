@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DeliveryRequestDTO {
     private String address;
-    private String deliveredStatus;
+    private String deliveryStatus;
     private double deliveryCost;
+    private int deliveryPersonId;
 }
