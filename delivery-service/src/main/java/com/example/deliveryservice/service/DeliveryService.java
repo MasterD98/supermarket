@@ -72,7 +72,7 @@ public class DeliveryService {
         updatedDelivery.setDeliveredStatus(deliveryRequestDTO.getDeliveredStatus());
         updatedDelivery.setDeliveryCost(deliveryRequestDTO.getDeliveryCost());
         deliveryRepository.save(updatedDelivery);
-        return "Item is successfully updated";
+        return "delivery is successfully updated";
     }
 
     public String deleteDelivery(int id) {
