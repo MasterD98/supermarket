@@ -22,6 +22,8 @@ public class DeliveryController {
         return ResponseEntity.ok(result);
     }
 
+    // delivery status update
+
     @GetMapping("/getAllDeliveries")
     public ResponseEntity<Page<DeliveryResponseDTO>> getAllItems(
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,

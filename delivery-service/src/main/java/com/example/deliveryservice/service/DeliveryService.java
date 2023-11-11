@@ -20,6 +20,8 @@ public class DeliveryService {
     @Autowired
     private DeliveryRepository deliveryRepository;
 
+    // delivery states
+
     public String createNewDelivery(DeliveryRequestDTO deliveryRequestDTO) {
 
         Delivery newDelivery = Delivery.builder()
@@ -69,7 +71,7 @@ public class DeliveryService {
         updatedDelivery.setAddress(deliveryRequestDTO.getAddress());
         updatedDelivery.setDeliveredStatus(deliveryRequestDTO.getDeliveredStatus());
         updatedDelivery.setDeliveryCost(deliveryRequestDTO.getDeliveryCost());
-        updatedDelivery.save(updatedDelivery);
+        deliveryRepository.save(updatedDelivery);
         return "Item is successfully updated";
     }
 
