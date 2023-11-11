@@ -1,8 +1,5 @@
 package com.example.orderservice.controller;
 
-import com.example.inventoryservice.dto.ItemRequestDTO;
-import com.example.inventoryservice.dto.ItemResponseDTO;
-import com.example.inventoryservice.service.ItemService;
 import com.example.orderservice.dto.OrderRequestDTO;
 import com.example.orderservice.dto.OrderResponseDTO;
 import com.example.orderservice.service.OrderService;
@@ -13,19 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
-@RequestMapping("/inventory")
+@RequestMapping("/order")
 public class OrderController {
 
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/addItem")
+    @PostMapping("/addOrder")
     public ResponseEntity<String> addItem(@RequestBody OrderRequestDTO orderRequestDTO) {
         String result = orderService.placeOrder(orderRequestDTO);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/getAllItems")
+    @GetMapping("/getAllOrders")
     public ResponseEntity<Page<OrderResponseDTO>> getAllItems(
             @RequestParam(name = "page", defaultValue = "0", required = false) Integer page,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer size) {
@@ -36,7 +33,7 @@ public class OrderController {
         return responseEntity.ok(pageDTOs);
     }
 
-    @GetMapping("/getItem/{id}")
+    @GetMapping("/getOrder/{id}")
     public ResponseEntity<OrderResponseDTO> getItemById(@PathVariable(name = "id") int id) {
         OrderResponseDTO result = orderService.getOrderById(id);
         return ResponseEntity.ok(result);
