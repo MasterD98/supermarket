@@ -56,6 +56,9 @@ public class DeliveryService {
 
     public DeliveryResponseDTO getDeliveryById(int id) {
         Delivery delivery = deliveryRepository.findById(id).orElse(null);
+        if (delivery==null){
+            return null;
+        }
         DeliveryResponseDTO deliveryResponseDTO = DeliveryResponseDTO.builder()
                 .address(delivery.getAddress())
                 .deliveryStatus(delivery.getDeliveryStatus())
@@ -69,6 +72,9 @@ public class DeliveryService {
     public String updateDelivery(DeliveryRequestDTO deliveryRequestDTO, int id) {
 
         Delivery updatedDelivery = deliveryRepository.findById(id).orElse(null);
+        if (updatedDelivery==null){
+            return "delivery updated is unsuccessful";
+        }
         updatedDelivery.setAddress(deliveryRequestDTO.getAddress());
         updatedDelivery.setDeliveryStatus(deliveryRequestDTO.getDeliveryStatus());
         updatedDelivery.setDeliveryCost(deliveryRequestDTO.getDeliveryCost());

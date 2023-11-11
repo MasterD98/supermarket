@@ -15,11 +15,12 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int orderId;
     private String name;
     private String description;
     private int quantity;
     private double unitPrice;
     private String category;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Order order;
 
 }

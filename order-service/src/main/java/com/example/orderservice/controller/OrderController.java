@@ -16,11 +16,13 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/addOrder")
+    @PostMapping("/placeOrder")
     public ResponseEntity<String> placeOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
         String result = orderService.placeOrder(orderRequestDTO);
         return ResponseEntity.ok(result);
     }
+
+    // ready order
 
     @GetMapping("/getAllOrders")
     public ResponseEntity<Page<OrderResponseDTO>> getAllOrders(

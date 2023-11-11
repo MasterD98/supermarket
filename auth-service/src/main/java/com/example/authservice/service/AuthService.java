@@ -20,12 +20,17 @@ public class AuthService {
 
     public String saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        repository.save(user);
-        return "user added to the system";
+        try{
+            repository.save(user);
+            return "user registered";
+        }catch (Exception ex) {
+            return "user register failed";
+        }
     }
 
     public String generateToken(String username) {
-        return jwtService.generateToken(username);
+        String token=jwtService.generateToken(username);
+        return token;
     }
 
     public void validateToken(String token) {

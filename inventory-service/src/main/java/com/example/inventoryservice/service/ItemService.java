@@ -85,6 +85,10 @@ public class ItemService {
     public String updateItem(ItemRequestDTO itemRequestDTO, int id) {
 
         Item updatedItem = itemRepository.findById(id).orElse(null);
+
+        if (updatedItem == null) {
+            return "Item not Found";
+        }
         updatedItem.setName(itemRequestDTO.getName());
         updatedItem.setCategory(itemRequestDTO.getCategory());
         updatedItem.setUnitPrice(itemRequestDTO.getUnitPrice());
@@ -98,5 +102,45 @@ public class ItemService {
     public String deleteItem(int id) {
         itemRepository.deleteById(id);
         return "Item is successfully deleted";
+    }
+
+    public Boolean validateItem(int id, int quantity) {
+        Item item = itemRepository.findById(id).orElse(null);
+
+        if (item == null) {
+            return false;
+        }
+        if (item.getAvailableQuantity() < quantity) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Boolean decreaseItemQuantity(int id, int quantity) {
+        Item item = itemRepository.findById(id).orElse(null);
+
+        if (item == null) {
+            return false;
+        }
+        if (item.getAvailableQuantity() < quantity) {
+            return false;
+        }
+
+        item.setAvailableQuantity(item.getAvailableQuantity() - quantity);
+        itemRepository.save(item);
+        return true;
+    }
+
+    public Boolean increaseItemQuantity(int id, int quantity) {
+        Item item = itemRepository.findById(id).orElse(null);
+
+        if (item == null) {
+            return false;
+        }
+
+        item.setAvailableQuantity(item.getAvailableQuantity() + quantity);
+        itemRepository.save(item);
+        return true;
     }
 }

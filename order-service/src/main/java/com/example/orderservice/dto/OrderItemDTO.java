@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderItemDTO {
     private int id;
-    private int orderId;
     private String name;
     private String description;
     private int quantity;

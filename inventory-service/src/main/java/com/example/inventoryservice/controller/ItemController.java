@@ -15,6 +15,29 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
+    // validate item
+    @GetMapping("/validateItem")
+    public ResponseEntity<Boolean> validateItem(@RequestParam(name = "id") int id,
+            @RequestParam(name = "quantity") int quantity) {
+        Boolean result = itemService.validateItem(id, quantity);
+        return ResponseEntity.ok(result);
+    }
+
+    // decrease Item Quantity
+    @PutMapping("/decreaseItemQuantity")
+    public ResponseEntity<Boolean> decreaseItemQuantity(@RequestParam(name = "id") int id,
+            @RequestParam(name = "quantity") int quantity) {
+        Boolean result = itemService.decreaseItemQuantity(id, quantity);
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/increaseItemQuantity")
+    public ResponseEntity<Boolean> increaseItemQuantity(@RequestParam(name = "id") int id,
+            @RequestParam(name = "quantity") int quantity) {
+        Boolean result = itemService.increaseItemQuantity(id, quantity);
+        return ResponseEntity.ok(result);
+    }
+
     @PostMapping("/addItem")
     public ResponseEntity<String> addItem(@RequestBody ItemRequestDTO itemRequestDTO) {
         String result = itemService.addNewItem(itemRequestDTO);
