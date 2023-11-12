@@ -41,13 +41,6 @@ public class OrderController {
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping("/updateOrder/{id}")
-    public ResponseEntity<String> updateOrder(@RequestBody OrderRequestDTO orderRequestDTO,
-            @PathVariable(name = "id") int id) {
-        String result = orderService.updateOrder(orderRequestDTO, id);
-        return ResponseEntity.ok(result);
-    }
-
     @DeleteMapping("deleteOrder/{id}")
     public ResponseEntity<String> deleteOrder(@PathVariable(name = "id") int id) {
         String result = orderService.deleteOrder(id);

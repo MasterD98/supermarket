@@ -148,10 +148,7 @@ public class OrderService {
     }
 
     public OrderResponseDTO getOrderById(int id) {
-        Order order = orderRepository.findById(id).orElse(null);
-        if(order==null){
-            return  null;
-        }
+        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
         List<OrderItem> orderItems = order.getItems();
         List<OrderItemDTO> orderItemDTOs = orderItems.stream().map(this::mapOrderItemtoOrderItemDTO).toList();
         OrderResponseDTO orderResponseDTO = OrderResponseDTO.builder()
@@ -162,21 +159,6 @@ public class OrderService {
                 .id(order.getId())
                 .build();
         return orderResponseDTO;
-    }
-
-    public String updateOrder(OrderRequestDTO orderRequestDTO, int id) {
-
-        Order updatedOrder = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));;
-
-        List<OrderItemDTO> orderItemsDTO = orderRequestDTO.getItems();
-        List<OrderItem> orderItems = orderItemsDTO.stream().map(this::mapOrderItemDTOtoOrderItem).toList();
-
-        updatedOrder.setCustomerId(orderRequestDTO.getCustomerId());
-        updatedOrder.setAddress(orderRequestDTO.getAddress());
-        updatedOrder.setTotal(orderRequestDTO.getTotal());
-        updatedOrder.setItems(orderItems);
-        orderRepository.save(updatedOrder);
-        return "order successfully updated";
     }
 
     public String deleteOrder(int id) {
